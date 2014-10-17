@@ -1,26 +1,29 @@
 require_relative "answer"
 
 class Blanket
-  attr_reader :size, :answer
-  attr_accessor :guessed_letters, :missed, :lives, :guessed
+  attr_reader :answer
+  attr_accessor :guessed_letters, :missed, :lives, :won
 
   def initialize(lives = 0)
     @answer = Answer.new
-    @size = @answer.size
     @guessed_letters = []
     @missed = []
     @lives = lives
-    @guessed = false
+    @won = false
   end
+
+  def size
+    @answer.size
+  end
+
+  # def show
+  #   print ["Word: "+show_blanket,
+  #        show_missed,
+  #        "Left lives: "+lives_left.to_s].join(" \n")
+  # end
 
   def show
-    print ["Word: "+show_blanket,
-         show_missed,
-         "Left lives: "+lives_left.to_s].join(" \n")
-  end
-
-  def show_blanket
-    blanket = ("-"*@size).chars
+    blanket = ("-"*size).chars
     blanket = make(blanket)
     blanket.join
   end
@@ -30,11 +33,11 @@ class Blanket
   end
 
   def open
-    print ["\n\nWord: "+@answer.show_answer, show_missed, "Left lives: "+lives_left.to_s].join(" \n")
+    @answer.show_answer
   end
 
   def show_missed
-    "Missed:" + @missed.join(", ")
+    @missed.join(", ")
   end
 
   def make(blanket)
@@ -46,7 +49,7 @@ class Blanket
   end
 
   def game_finished?
-    @size == @guessed_letters.flatten(1).count || lives_left < 1 || @guessed
+    @size == @guessed_letters.flatten(1).count || lives_left < 1 || @won
   end
 
   def question(letter)
@@ -54,16 +57,22 @@ class Blanket
       word_guessed(letter) 
       return
     end
+    letter_guessed(letter)
+  end
+
+  def letter_guessed(letter)
     answer = @answer.includes(letter)
     @missed << letter if answer.empty? 
-    unless answer.empty?
-      if answer.flatten.count > 2
-        answer.each{ |unit|
-          @guessed_letters << [unit]
-        }
-       else
-         @guessed_letters << answer
-      end
+    guessed_correct(answer) unless answer.empty?
+  end
+
+  def guessed_correct(answer)
+    if answer.flatten.count > 2
+      answer.each{ |unit|
+        @guessed_letters << [unit]
+      }
+    else
+      @guessed_letters << answer
     end
   end
 

@@ -3,7 +3,7 @@ class Answer
   def initialize
     @word = generate_answer
   end
-
+  
   def size
     @word.length
   end
@@ -27,7 +27,7 @@ class Answer
     @word
   end
 
-  protected
+  private
   attr_reader :word
 
 end

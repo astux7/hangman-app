@@ -13,10 +13,10 @@ end
 class FakeBlanket < Blanket
   def initialize(lives = 0)
     @answer = FakeAnswer.new
-    @size = @answer.size
     @guessed_letters = []
     @missed = []
     @lives = lives
+    @won = false
   end
 end
 describe "Blanket" do 
@@ -27,27 +27,26 @@ let(:blanket) { FakeBlanket.new}
   end 
 
   it 'blanket open should be 3 ---' do
-    expect(blanket.show_blanket).to eq('---')
+    expect(blanket.show).to eq('---')
   end
 
   it 'blanket open should be 2 letters from 3 i-i' do
     blanket.guessed_letters = [[["i",0],["i",2]]]
-    expect(blanket.show_blanket).to eq('i-i')
+    expect(blanket.show).to eq('i-i')
   end
 
   it 'blanket open should be 2 letters from 3 i-i' do
     blanket.guessed_letters = [[["i",0],["i",2]]]
-    expect(blanket.show_blanket).to eq('i-i')
+    expect(blanket.show).to eq('i-i')
   end
 
   it 'should open correct quessed word' do
-    expect(blanket).to receive(:print).with("\n\nWord: iki \nMissed: \nLeft lives: 0")   
-    blanket.open
+    expect(blanket.open).to eq("iki")    
   end
   
     it 'should open correct quessed word' do
-    expect(blanket).to receive(:print).with("Word: --- \nMissed: \nLeft lives: 0")   
-    blanket.show
+    expect(blanket.show).to eq("---")
+    
   end
   
 end
