@@ -36,4 +36,9 @@ class Hangman
     start
   end
 
+  def stat
+    "\n Left Lives: "+@blanket.lives_left.to_s +
+    "\n Missed: "+@blanket.show_missed
+  end
+
 end

@@ -16,12 +16,6 @@ class Blanket
     @answer.size
   end
 
-  # def show
-  #   print ["Word: "+show_blanket,
-  #        show_missed,
-  #        "Left lives: "+lives_left.to_s].join(" \n")
-  # end
-
   def show
     blanket = ("-"*size).chars
     blanket = make(blanket)
@@ -49,7 +43,10 @@ class Blanket
   end
 
   def game_finished?
-    @size == @guessed_letters.flatten(1).count || lives_left < 1 || @won
+    return true if @won
+    return true if size == @guessed_letters.count
+    return true if lives_left < 1
+    false
   end
 
   def question(letter)
@@ -78,7 +75,7 @@ class Blanket
 
   def word_guessed(word)
     if @answer.final?(word)
-      @guessed = true
+      @won = true
     else
       @missed << word
     end

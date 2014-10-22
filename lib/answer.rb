@@ -20,7 +20,8 @@ class Answer
   end
 
   def generate_answer
-    ["iki","kikimara","liaupsusas","bevardis","benamis"].sample
+    ["red", "summer", "test","hello"].sample
+
   end
 
   def show_answer
